@@ -6,7 +6,10 @@
 package com.rle;
 
 import static com.rle.Encode.encode;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -164,7 +167,11 @@ public class gui extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         String msg = jTextField1.getText();
-        encodedMsg = encode(msg);
+        try {
+            encodedMsg = encode(msg);
+        } catch (IOException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for(pair<String, String> p : encodedMsg)
         {
             jTextArea1.append(" (" + p.first + "," + p.second + ")");
@@ -173,7 +180,12 @@ public class gui extends javax.swing.JFrame {
     }                                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        String res = Decode.decode(encodedMsg, Encode.huffmanTable);
+        String res = "";
+        try {
+            res = Decode.decode(encodedMsg, Encode.huffmanTable);
+        } catch (IOException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jTextArea2.append(res);
     }                                        
 
